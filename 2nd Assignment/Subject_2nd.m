@@ -12,8 +12,8 @@ syms x y;
 f(x,y) = x.^3 .* exp(-x.^2 - y.^4);
 
 
-xinit = 1;
-yinit = 1;
+xinit = -1;
+yinit = -1;
 xk = [xinit;yinit];
 epsilon = 0.01;
 

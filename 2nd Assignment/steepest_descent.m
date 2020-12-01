@@ -78,10 +78,6 @@ switch gamma_method
                 mk = mk + 1;
                 gamma = s * b^mk;
             end
-            if (mk~= 0)
-                mk = mk - 1;
-                gamma = s * b^mk;
-            end
             
             % Calculate the xk+1 value and place it in the xk matrix
             x_k = xk(:,k) + gamma * d(:,k);
@@ -96,5 +92,5 @@ switch gamma_method
         
 end
 
-iterations = k-1;
+iterations = k - 1;
 end
