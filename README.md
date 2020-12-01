@@ -1,2 +1,2 @@
 # Optimization-Techniques
-AUTH Assignments
+AUTH 
