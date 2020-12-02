@@ -4,12 +4,12 @@
 % 9292
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
-function [xk,calc_nubmer] = steepest_descent(xk,epsilon,func,gamma_method,gamma)
+function [xk,calc_nubmer] = steepest_descent(X,epsilon,func,gamma_method,gamma)
 
 % Initialize an array to hold the values of the dk vector
 d = [];
 k = 1;
-
+xk = X;
 % Calculate the gradient of the function 
 f_grad = gradient(func);
 
@@ -18,6 +18,7 @@ f_grad = gradient(func);
 
 switch gamma_method
     case "const"
+        
         % While the norm of the gradient vector is larger than the selected
         % value epsilon
         while (norm(double(subs(f_grad,symvar(f_grad),{xk(:,k)'}))) > epsilon)

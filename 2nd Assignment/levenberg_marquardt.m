@@ -10,7 +10,7 @@ function [xk,calc_nubmer] = levenberg_marquardt(xk,epsilon,func,gamma_method,gam
 d = [];
 k = 1;
 
-% Calculate the gradient of the function 
+% Calculate the gradient and the hessian of the function 
 f_grad = gradient(func);
 f_hes = hessian(func);
 
@@ -21,11 +21,16 @@ switch gamma_method
         % While the norm of the gradient vector is larger than the selected
         % value epsilon
         while (norm(double(subs(f_grad,symvar(f_grad),{xk(:,k)'}))) > epsilon)
+            % Calculate the hessian matrix and its eigen values 
             hes_matrix = double(subs(f_hes,symvar(f_hes),{xk(:,k)'}));
             eigen_values = eig(hes_matrix);
+            % Check if the hessian matrix is positive definite
             if (sum(eigen_values < 0) > 0)
+                % Add a small step to the max eigen value so the matrix
+                % becomes positive definite
                 uk = max(abs(eigen_values))+0.2;
             end
+            % Solve the linear system to find the dk value
             A = hes_matrix + uk*eye(2);
             B = -double(subs(f_grad,symvar(f_grad),{xk(:,k)'}));
             
@@ -53,6 +58,7 @@ switch gamma_method
             if (sum(eigen_values < 0) > 0)
                 uk = max(abs(eigen_values))+0.2;
             end
+            % Solve the linear system to find the dk value
             A = hes_matrix + uk*eye(2);
             B = -double(subs(f_grad,symvar(f_grad),{xk(:,k)'}));
             
@@ -73,9 +79,6 @@ switch gamma_method
             
             % Increase the k counter
             k = k + 1;
-            if (k == 101 || func(xk(1,k),xk(2,k)) >= func(xk(1,k-1),xk(2,k-1)))
-                break
-            end
         end
     case "armijo"
         % Set the armijo algorithm constants
@@ -93,15 +96,17 @@ switch gamma_method
             if (sum(eigen_values < 0) > 0)
                 uk = max(abs(eigen_values))+0.2;
             end
+            % Solve the linear system to find the dk value
             A = hes_matrix + uk*eye(2);
-            B = double(subs(f_grad,symvar(f_grad),{xk(:,k)'}));
+            B = -double(subs(f_grad,symvar(f_grad),{xk(:,k)'}));
             
             % Calculate the k+1 d value and place it in the matrix
-            d = [d linsolve(A,-B)];
+            d = [d linsolve(A,B)];
             
             fxk = double(func(xk(1,k),xk(2,k)));
+            
             % find the mk value for which the inequality is satisfied
-            while (fxk - double(func(xk(1,k)+gamma*d(1,k),xk(2,k)+gamma*d(2,k))) < -a * b^mk * s * d(:,k)' * B)
+            while (fxk - double(func(xk(1,k)+gamma*d(1,k),xk(2,k)+gamma*d(2,k))) < -a * b^mk * s * d(:,k)' * (-B))
                 mk = mk + 1;
                 gamma = s * b^mk;
             end
@@ -112,9 +117,7 @@ switch gamma_method
             
             % Increase the k counter
             k = k + 1;
-            if (k == 101 || func(xk(1,k),xk(2,k)) >= func(xk(1,k-1),xk(2,k-1)))
-                break
-            end
+            
             % Set mk to 0 for the next iteration
             mk = 0;
             gamma = s * b^mk;

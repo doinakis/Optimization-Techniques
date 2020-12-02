@@ -8,34 +8,42 @@ close all
 clc
 clear
 
+% Create the function
 syms x y;
 f(x,y) = x.^3 .* exp(-x.^2 - y.^4);
 
-xinit = -1;
-yinit = -1;
-xk = [xinit;yinit];
+X = [0 -1 1;0 -1 1;];
+method = ["const","min","armijo"];
+figure_counter = 1;
 epsilon = 0.01;
 
-[xk1,iterations1] = steepest_descent(xk,epsilon,f,"const",0.3);
-figure(1) 
-fcontour(f);
-hold on;
-scatter(xk1(1,1:end-1),xk1(2,1:end-1));
-scatter(xk1(1,end),xk1(2,end),'*');
-% 
-%
-xk = [xinit;yinit];
-[xk2,iterations2] = steepest_descent(xk,epsilon,f,"min",0.3);
-figure(2)
-fcontour(f);
-hold on;
-scatter(xk2(1,1:end-1),xk2(2,1:end-1));
-scatter(xk2(1,end),xk2(2,end),'*');
-
-xk = [xinit;yinit];
-[xk3,iterations3] = steepest_descent(xk,epsilon,f,"armijo",0.3);
-figure(3)
-fcontour(f);
-hold on;
-scatter(xk3(1,1:end-1),xk3(2,1:end-1));
-scatter(xk3(1,end),xk3(2,end),'*');
+for i = 1:3
+    for j = 1:3
+        
+        [xk,iterations] = steepest_descent(X(:,i),epsilon,f,method(j),0.3);
+        graph_title = sprintf('Steepest Descent\nStarting point = (%d,%d) method = %s\n#iterations = %d Minimum = (%.2f,%.2f)', X(1,i),X(2,i),method(j),iterations,xk(1,end),xk(2,end));
+        model = figure(figure_counter);
+        figure_counter = figure_counter + 1;
+        fcontour(f);hold on;
+        grid on;
+        title(graph_title);
+        xlabel("x");
+        ylabel("y");
+        plot(xk(1,1:end-1),xk(2,1:end-1));
+        scatter(xk(1,end),xk(2,end),'*');
+        saveas(model,['./Diagrams/Subject2nd/',num2str(X(1,i)),'_',num2str(X(2,i)),'_',num2str(method(j)),'_contour.jpeg']);
+        model = figure(figure_counter);
+        hold on;
+        figure_counter = figure_counter + 1;
+        plot(0:iterations,f(xk(1,:),xk(2,:)));
+        scatter(iterations,f(xk(1,end),xk(2,end)),'*');
+        txt = sprintf("Minimum @(%.3f,%.2f)\n f = %.3f",xk(1,end),xk(2,end),double(f(xk(1,end),xk(2,end))));
+        annotation('textbox', 'String', txt);
+        title(" Value of the function as k changes");
+        set(gca, 'XTick', 0:iterations);
+        xlabel("k-th iteration");
+        ylabel("f(xk,yk)");
+        saveas(model,['./Diagrams/Subject2nd/',num2str(X(1,i)),'_',num2str(X(2,i)),'_',num2str(method(j)),'_function_values.jpeg']);
+      
+    end
+end

@@ -10,7 +10,7 @@ function [xk,calc_nubmer] = newton(xk,epsilon,func,gamma_method,gamma)
 d = [];
 k = 1;
 
-% Calculate the gradient of the function 
+% Calculate the gradient and the hessian of the function 
 f_grad = gradient(func);
 f_hes = hessian(func);
 
@@ -21,9 +21,10 @@ switch gamma_method
         % While the norm of the gradient vector is larger than the selected
         % value epsilon
         while (norm(double(subs(f_grad,symvar(f_grad),{xk(:,k)'}))) > epsilon)
+            % Calculate the gradient and the hessian matrix at xk
             grad_matrix = double(subs(f_grad,symvar(f_grad),{xk(:,k)'}));
             hes_matrix = double(subs(f_hes,symvar(f_hes),{xk(:,k)'}));
-            % Calculate the k+1 d value and place it in the matrix
+            % Calculate the d vector and place it in the matrix
             d = [d -hes_matrix\grad_matrix];
             
             % Calculate the xk+1 value and place it in the xk matrix
@@ -41,10 +42,10 @@ switch gamma_method
         % While the norm of the gradient vector is larger than the selected
         % value epsilon
         while (norm(double(subs(f_grad,symvar(f_grad),{xk(:,k)'}))) > epsilon)
-            
+            % Calculate the gradient and the hessian matrix at xk
             grad_matrix = double(subs(f_grad,symvar(f_grad),{xk(:,k)'}));
             hes_matrix = double(subs(f_hes,symvar(f_hes),{xk(:,k)'}));
-            % Calculate the k+1 d value and place it in the matrix
+            % Calculate the d vector and place it in the matrix
             d = [d -hes_matrix\grad_matrix];
             
             % Initialize a function with gamma_value as its input variable
