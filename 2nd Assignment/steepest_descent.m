@@ -4,7 +4,7 @@
 % 9292
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
-function [xk,iterations] = steepest_descent(xk,epsilon,func,gamma_method,gamma)
+function [xk,calc_nubmer] = steepest_descent(xk,epsilon,func,gamma_method,gamma)
 
 % Initialize an array to hold the values of the dk vector
 d = [];
@@ -73,8 +73,10 @@ switch gamma_method
             % Calculate the k+1 d value and place it in the matrix
             d = [d -double(subs(f_grad,symvar(f_grad),{xk(:,k)'}))];
             
+            fxk = double(func(xk(1,k),xk(2,k)));
+            grad_matrix = double(subs(f_grad,symvar(f_grad),{xk(:,k)'}));
             % find the mk value for which the inequality is satisfied
-            while (double(func(xk(1,k),xk(2,k)) - func(xk(1,k)+gamma*d(1,k),xk(2,k)+gamma*d(2,k))) < -a * b^mk * s * d(:,k)'* double(subs(f_grad,symvar(f_grad),{xk(:,k)'})))
+            while (fxk - double(func(xk(1,k)+gamma*d(1,k),xk(2,k)+gamma*d(2,k))) < -a * b^mk * s * d(:,k)' * grad_matrix)
                 mk = mk + 1;
                 gamma = s * b^mk;
             end
@@ -88,9 +90,10 @@ switch gamma_method
             
             % Set mk to 0 for the next iteration
             mk = 0;
+            gamma = s * b^mk;
         end
         
 end
 
-iterations = k - 1;
+calc_nubmer = k - 1;
 end
