@@ -16,12 +16,12 @@ X = [0 -1 1;0 -1 1;];
 method = ["const","min","armijo"];
 figure_counter = 1;
 epsilon = 0.01;
-
+gamma = 0.5;
 for i = 1:3
     for j = 1:3
         
-        [xk,iterations] = newton(X(:,i),epsilon,f,method(j),0.3);
-        graph_title = sprintf('Steepest Descent\nStarting point = (%d,%d) method = %s\n#iterations = %d Minimum = (%.2f,%.2f)', X(1,i),X(2,i),method(j),iterations,xk(1,end),xk(2,end));
+        [xk,iterations] = newton(X(:,i),epsilon,f,method(j),gamma);
+        graph_title = sprintf('Newton\nStarting point = (%d,%d) method = %s\n#iterations = %d Minimum = (%.2f,%.2f)', X(1,i),X(2,i),method(j),iterations,xk(1,end),xk(2,end));
         model = figure(figure_counter);
         figure_counter = figure_counter + 1;
         fcontour(f);hold on;
@@ -35,12 +35,12 @@ for i = 1:3
         model = figure(figure_counter);
         hold on;
         figure_counter = figure_counter + 1;
-        plot(0:iterations,f(xk(1,:),xk(2,:)));
-        scatter(iterations,f(xk(1,end),xk(2,end)),'*');
+        plot(1:iterations+1,f(xk(1,:),xk(2,:)));
+        scatter(iterations+1,f(xk(1,end),xk(2,end)),'*');
         txt = sprintf("Minimum @(%.3f,%.2f)\n f = %.3f",xk(1,end),xk(2,end),double(f(xk(1,end),xk(2,end))));
         annotation('textbox', 'String', txt);
         title(" Value of the function as k changes");
-        set(gca, 'XTick', 0:iterations);
+        set(gca, 'XTick', 1:iterations+1);
         xlabel("k-th iteration");
         ylabel("f(xk,yk)");
         saveas(model,['./Diagrams/Subject3rd/',num2str(X(1,i)),'_',num2str(X(2,i)),'_',num2str(method(j)),'_function_values.jpeg']);
