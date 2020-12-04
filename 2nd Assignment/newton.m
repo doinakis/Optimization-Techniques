@@ -62,7 +62,7 @@ switch gamma_method
             
             % Increase the k counter
             k = k + 1;
-            if (k == 101 || func(xk(1,k),xk(2,k)) >= func(xk(1,k-1),xk(2,k-1)))
+            if (k == 51 || func(xk(1,k),xk(2,k)) >= func(xk(1,k-1),xk(2,k-1)))
                 break
             end
         end
@@ -107,4 +107,3 @@ end
 
 calc_nubmer = k - 1;
 end
-

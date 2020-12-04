@@ -91,7 +91,7 @@ switch gamma_method
         % value epsilon
         while (norm(double(subs(f_grad,symvar(f_grad),{xk(:,k)'}))) > epsilon)
             
-             hes_matrix = double(subs(f_hes,symvar(f_hes),{xk(:,k)'}));
+            hes_matrix = double(subs(f_hes,symvar(f_hes),{xk(:,k)'}));
             eigen_values = eig(hes_matrix);
             if (sum(eigen_values < 0) > 0)
                 uk = max(abs(eigen_values))+0.2;
@@ -127,8 +127,4 @@ end
 
 calc_nubmer = k - 1;
 
-
-
-
 end
-
