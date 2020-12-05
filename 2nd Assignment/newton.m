@@ -106,4 +106,5 @@ switch gamma_method
 end
 
 calc_nubmer = k - 1;
+
 end

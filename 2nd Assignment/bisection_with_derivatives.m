@@ -69,6 +69,8 @@ end
 
 if isnan(min_xk)
     min_xk = (a(end)+b(end))/2;
+    
 % The function func is called n times(Its derivative)
 calc_number = n;
+
 end
