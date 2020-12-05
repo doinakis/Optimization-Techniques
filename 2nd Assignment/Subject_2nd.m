@@ -31,7 +31,7 @@ for i = 1:3
         ylabel("y");
         plot(xk(1,1:end),xk(2,1:end));
         scatter(xk(1,end),xk(2,end),'*');
-        saveas(model,['./Diagrams/Subject2nd/',num2str(X(1,i)),'_',num2str(X(2,i)),'_',num2str(method(j)),'_contour.jpeg']);
+        %saveas(model,['./Diagrams/Subject2nd/',num2str(X(1,i)),'_',num2str(X(2,i)),'_',num2str(method(j)),'_contour.jpeg']);
         model = figure(figure_counter);
         hold on;
         figure_counter = figure_counter + 1;
@@ -43,7 +43,7 @@ for i = 1:3
         set(gca, 'XTick', 0:iterations);
         xlabel("k-th iteration");
         ylabel("f(xk,yk)");
-        saveas(model,['./Diagrams/Subject2nd/',num2str(X(1,i)),'_',num2str(X(2,i)),'_',num2str(method(j)),'_function_values.jpeg']);
+        %saveas(model,['./Diagrams/Subject2nd/',num2str(X(1,i)),'_',num2str(X(2,i)),'_',num2str(method(j)),'_function_values.jpeg']);
       
     end
 end

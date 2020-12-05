@@ -19,7 +19,7 @@ title("3D function plot");
 xlabel("x");
 ylabel("y");
 zlabel("f(x,y)");
-saveas(model,['./Diagrams/Subject1st/','function_plot.jpeg']);
+%saveas(model,['./Diagrams/Subject1st/','function_plot.jpeg']);
 % Plot the isolines of f
 model = figure(2);
 fcontour(f)
@@ -27,4 +27,4 @@ grid on;
 title("function isolines");
 xlabel("x");
 ylabel("y");
-saveas(model,['./Diagrams/Subject1st/','contour.jpeg']);
+%saveas(model,['./Diagrams/Subject1st/','contour.jpeg']);
