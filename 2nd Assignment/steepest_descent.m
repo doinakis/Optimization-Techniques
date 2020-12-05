@@ -4,7 +4,21 @@
 % 9292
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
-function [xk,calc_nubmer] = steepest_descent(X,epsilon,func,gamma_method,gamma)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Function that calculates the minimum point xk of a given function using 
+% the Steepest Descent method and returns the number of iterations the 
+% algorithm needed(iterations) and every point calculated in each iteration
+% (xk) Where:
+%   X: is the starting point (x,y)
+%   epsilon: if the gradient of the function is less than this value the
+%       algorithm stops
+%   func: the function to be minimized
+%   gamma_method: string which specifies if the gamma value will be
+%       constant(const),minimized with bisection with derivatives(min) or
+%       calculated using armijo method(armijo)
+%   gamma: the initial value of gamma
+%%
+function [xk,iterations] = steepest_descent(X,epsilon,func,gamma_method,gamma)
 
 % Initialize an array to hold the values of the dk vector
 d = [];
@@ -96,5 +110,5 @@ switch gamma_method
         
 end
 
-calc_nubmer = k - 1;
+iterations = k - 1;
 end
