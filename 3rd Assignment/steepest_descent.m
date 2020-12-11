@@ -43,9 +43,12 @@ switch gamma_method
             % Calculate the xk+1 value and place it in the xk matrix
             x_k = xk(:,k) + gamma * d(:,k);
             xk = [xk x_k];
-            
+
             % Increase the k counter 
             k = k + 1;
+            if (k > 100)
+                break
+            end
         end
     case "min"
         % Create syms variable to call the bisection with derivatives

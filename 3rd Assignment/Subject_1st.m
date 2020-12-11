@@ -6,23 +6,34 @@
 %%
 
 clc
-clear 
-close all 
+clear
+close all
 
 syms x1 x2;
 
-% Function to be minimized 
+% Function to be minimized
 f(x1,x2) = (1/2) * x1^2 + (1/2) * x2^2;
 
 x1init = 10;
 x2init = 10;
-X = [8 -5 11;3 7 3];
+X = [10;10];
 gamma_value = [0.1 1 2 10];
 epsilon = 0.01;
 figure_counter = 1;
 
 
 for i = 1:4
-[xk,iterations] = steepest_descent(X(:,i),epsilon,f,"const",gamma_value(3));
-graph_title = sprintf('Steepest Descent\nStarting point = ');
+    [xk,iterations] = steepest_descent(X,epsilon,f,"const",gamma_value(i));
+    model = figure(figure_counter);
+    figure_counter = figure_counter + 1;
+    hold on;
+    plot(0:iterations,f(xk(1,:),xk(2,:)));
+    scatter(iterations,f(xk(1,end),xk(2,end)),'*');
+    graph_title = sprintf('Steepest Descent\nStarting point = (%d,%d) method = const \n#iterations = %d g_k = %.1f', X(1),X(2),iterations,gamma_value(i));
+    title(graph_title);
+    set(gca, 'XTick', 0:iterations);
+    xlabel("k-th iteration");
+    xticks([0:5:iterations-1 iterations]);
+    ylabel("f(xk,yk)");
+    %saveas(model,['./Diagrams/Subject_1st/',num2str(i),'_function_values.jpeg']);
 end
