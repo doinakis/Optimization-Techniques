@@ -17,8 +17,10 @@
 %       constant(const),minimized with bisection with derivatives(min) or
 %       calculated using armijo method(armijo)
 %   gamma: the initial value of gamma
+%   max_iterations: if the algorithm reaches that many iterations it
+%       returns
 %%
-function [xk,iterations] = steepest_descent(X,epsilon,func,gamma_method,gamma)
+function [xk,iterations] = steepest_descent(X,epsilon,func,gamma_method,gamma,max_iterations)
 
 % Initialize an array to hold the values of the dk vector
 d = [];
@@ -46,7 +48,9 @@ switch gamma_method
 
             % Increase the k counter 
             k = k + 1;
-            if (k > 100)
+            
+            % Break the while loop if it reaches the maximum iterations
+            if (k > max_iterations)
                 break
             end
         end
