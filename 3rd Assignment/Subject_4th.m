@@ -14,7 +14,7 @@ b = [10;15];
 X = [11;3];
 sk = 0.1;
 gamma_value = 0.01;
-epsilon = 0.02;
+epsilon = 0.01;
 max_iterations = 100;
 figure_counter = 1;
 
