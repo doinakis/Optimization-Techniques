@@ -1,2 +1,2 @@
 # Optimization-Techniques
-AUTH Assingments
+## Project as part of Aristotle University of Thessaloniki assignment.
